@@ -9,7 +9,7 @@
 - Reports upward = melaporkan kata yang dicari oleh pengguna melalui callback 'onChanged'
 
 3. StatusFilter
-- The Trigger = readability (bagian pilihan filter status)
+- The Trigger = readability (bagian pilihan filter status) 
 - It owns = pilihan status 'All' , 'Watching' , 'Finished' , 'Backlog'
 - Reports upward = melaporkan status yang di pilih pengguna melalui callback 'onStatusSelected'
 
