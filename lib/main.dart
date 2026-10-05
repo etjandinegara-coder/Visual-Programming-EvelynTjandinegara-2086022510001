@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'package:composition_md/design/colors.dart';
+import 'package:composition_md/design/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,12 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Drama Vault',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: kDramaPink400,
-        ),
-        useMaterial3: true,
-      ),
+      theme: dramaTheme,
       home: const HomeScreen(),
     );
   }

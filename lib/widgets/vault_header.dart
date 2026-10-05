@@ -5,22 +5,22 @@ class VaultHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'My Drama Vault',
-          style: textTheme.headlineSmall?.copyWith(
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(height: 4),
         Text(
           'Track your favorite dramas',
-          style: textTheme.bodyLarge,
-        ),
+          style: Theme.of(context).textTheme.bodyLarge
+        )
       ],
     );
   }

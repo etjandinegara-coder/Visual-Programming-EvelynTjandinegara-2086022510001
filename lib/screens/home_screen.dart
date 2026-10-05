@@ -109,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'My Watchlist',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
 
