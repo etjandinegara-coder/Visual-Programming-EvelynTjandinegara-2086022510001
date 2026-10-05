@@ -20,7 +20,7 @@ TextTheme _buildDramaTextTheme(TextTheme base) {
     ),
   )
       .apply(
-    fontFamily: 'Rubik',
+    fontFamily: 'Montserrat',
     displayColor: kDramaBrown900,
     bodyColor: kDramaBrown900,
   );

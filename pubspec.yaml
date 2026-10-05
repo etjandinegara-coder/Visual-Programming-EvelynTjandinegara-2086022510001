@@ -59,10 +59,11 @@ flutter:
 
   # TODO: Insert Fonts (103)
   fonts:
-    - family: Rubik
+    - family: Montserrat
       fonts:
-        - asset: fonts/Rubik-Regular.ttf
-        - asset: fonts/Rubik-Medium.ttf
+        - asset: lib/design/fonts/Montserrat-Bold.ttf
+          weight: 400
+        - asset: lib/design/fonts/Montserrat-Medium.ttf
           weight: 500
 
   # To add assets to your application, add an assets section, like this:
