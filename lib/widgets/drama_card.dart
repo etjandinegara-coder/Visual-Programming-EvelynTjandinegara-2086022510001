@@ -18,9 +18,22 @@ class DramaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(title),
-        subtitle: Text('$genre • $status'),
-        trailing: Text('⭐ $rating'),
+        title: Text(title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text('$genre • $status',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.star_rounded, size: 18, color: Colors.amber),
+            const SizedBox(width: 4),
+            Text(rating.toStringAsFixed(1)),
+          ],
+        ),
       ),
     );
   }

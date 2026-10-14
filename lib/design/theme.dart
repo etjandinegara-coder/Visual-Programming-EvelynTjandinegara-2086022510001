@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
 
-TextTheme _buildDramaTextTheme(TextTheme base) {
+TextTheme _buildDramaTextTheme(TextTheme base, {required bool isLight}) {
   return base
       .copyWith(
     headlineSmall: base.headlineSmall!.copyWith(
@@ -21,32 +21,42 @@ TextTheme _buildDramaTextTheme(TextTheme base) {
   )
       .apply(
     fontFamily: 'Montserrat',
-    displayColor: kDramaBrown900,
-    bodyColor: kDramaBrown900,
+    // Brown 900 hanya untuk light mode. Di dark mode warna ini hampir tidak terbaca di atas background gelap, jadi pakai warna default.
+    displayColor: isLight ? kDramaBrown900 : null,
+    bodyColor: isLight ? kDramaBrown900 : null,
   );
 }
 
-final ThemeData dramaTheme = ThemeData(
-  useMaterial3: true,
+ThemeData _buildDramaTheme(Brightness brightness) {
+  final isLight = brightness == Brightness.light;
+  final base = ThemeData(brightness: brightness, useMaterial3: true);
 
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: kDramaPink400,
-  ),
-
-  textTheme: _buildDramaTextTheme(
-    ThemeData.light().textTheme,
-  ),
-
-  inputDecorationTheme: const InputDecorationTheme(
-    border: OutlineInputBorder(),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        width: 2.0,
-        color: kDramaBrown900,
+  return base.copyWith(
+    appBarTheme: AppBarTheme(
+      backgroundColor: isLight ? kDramaPink100 : null,
+      foregroundColor: isLight ? kDramaBrown900 : null,
+      scrolledUnderElevation: 0,
+    ),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: kDramaPink400,
+      brightness: brightness,
+    ),
+    textTheme: _buildDramaTextTheme(base.textTheme, isLight: isLight),
+    inputDecorationTheme: InputDecorationTheme(
+      border: const OutlineInputBorder(),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          width: 2.0,
+          // null di dark mode akan otomatis pakai warna primary
+          color: isLight ? kDramaBrown900 : kDramaPink100,
+        ),
+      ),
+      floatingLabelStyle: TextStyle(
+        color: isLight ? kDramaBrown900 : kDramaPink100,
       ),
     ),
-    floatingLabelStyle: TextStyle(
-      color: kDramaBrown900,
-    ),
-  ),
-);
+  );
+}
+
+final ThemeData dramaTheme = _buildDramaTheme(Brightness.light);
+final ThemeData dramaDarkTheme = _buildDramaTheme(Brightness.dark);

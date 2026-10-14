@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drama Vault',
       theme: dramaTheme,
+      darkTheme: dramaDarkTheme,
+      themeMode: ThemeMode.system,
       home: const HomeScreen(),
     );
   }

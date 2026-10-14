@@ -11,6 +11,8 @@ class VaultHeader extends StatelessWidget {
       children: [
         Text(
           'My Drama Vault',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.primary,
@@ -19,6 +21,8 @@ class VaultHeader extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           'Track your favorite dramas',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.bodyLarge
         )
       ],

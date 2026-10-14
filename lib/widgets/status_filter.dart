@@ -21,13 +21,13 @@ class StatusFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8,
+      runSpacing: 8,
       children: statuses.map((status) {
         return ChoiceChip(
-          label: Text(status),
-          selected: selectedStatus == status,
-          onSelected: (_) {
-            onStatusSelected(status);
-          },
+              label: Text(status),
+              showCheckmark: false,
+              selected: selectedStatus == status,
+              onSelected: (_) => onStatusSelected(status),
         );
       }).toList(),
     );
