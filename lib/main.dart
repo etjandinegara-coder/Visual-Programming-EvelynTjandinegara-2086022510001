@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'package:composition_md/design/colors.dart';
 import 'package:composition_md/design/theme.dart';
+import 'package:composition_md/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());

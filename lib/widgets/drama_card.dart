@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:composition_md/models/drama.dart';
 
 class DramaCard extends StatelessWidget {
-  final String title;
-  final String status;
-  final String genre;
-  final double rating;
+  const DramaCard({super.key, required this.drama});
 
-  const DramaCard({
-    super.key,
-    required this.title,
-    required this.status,
-    required this.genre,
-    required this.rating,
-  });
+  final Drama drama;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(title,
+        title: Text(drama.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        subtitle: Text('$genre • $status',
+        subtitle: Text('${drama.genre} • ${drama.status.label}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -31,7 +23,7 @@ class DramaCard extends StatelessWidget {
           children: [
             const Icon(Icons.star_rounded, size: 18, color: Colors.amber),
             const SizedBox(width: 4),
-            Text(rating.toStringAsFixed(1)),
+            Text(drama.averageRating.toStringAsFixed(1)),
           ],
         ),
       ),

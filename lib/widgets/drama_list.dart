@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'drama_card.dart';
+import 'package:composition_md/models/drama.dart';
+import 'package:composition_md/widgets/drama_card.dart';
 
 class DramaList extends StatelessWidget {
-  final List<Map<String, dynamic>> dramas;
+  final List<Drama> dramas;
   final bool isTablet;
   final VoidCallback onReset;
 
@@ -12,15 +12,7 @@ class DramaList extends StatelessWidget {
     required this.dramas, required this.isTablet, required this.onReset,
   });
 
-  Widget _buildCard(int index) {
-    final drama = dramas[index];
-    return DramaCard(
-      title: drama['title'] as String,
-      status: drama['status'] as String,
-      genre: drama['genre'] as String,
-      rating: (drama['rating'] as num).toDouble(),
-    );
-  }
+  Widget _buildCard(int index) => DramaCard(drama: dramas[index]);
 
   @override
   Widget build(BuildContext context) {

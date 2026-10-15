@@ -9,36 +9,44 @@ import 'package:flutter/material.dart';
 
 import 'package:composition_md/design/theme.dart';
 import 'package:composition_md/screens/home_screen.dart';
+import 'package:composition_md/data/drama_data.dart';
+import 'package:composition_md/models/drama.dart';
 
 void main() => runApp(const LabHarness());
 
-/// Tepat 200 karakter. Untuk tes "Long text".
+// Tepat 200 karakter. Untuk tes "Long text".
 const String kLongTitle =
     'Crash Landing on You: The Extended Director Cut With Alternate Endings, '
     'Behind The Scenes Commentary, Deleted Scenes, Cast Interviews, Bloopers, '
     'Soundtrack Special, and Fan Voted Epilogue Episodes Pt2';
 
-final List<Map<String, dynamic>> kLongTitleDramas = [
-  {
-    'title': kLongTitle,
-    'status': 'Watching',
-    'genre': 'Romance Comedy Fantasy Thriller Historical Melodrama',
-    'rating': 9.9,
-  },
+final List<Drama> kLongTitleDramas = [
+  const Drama(
+    id: 'long-title',
+    title: kLongTitle,
+    genre: 'Romance Comedy Fantasy Thriller Historical Melodrama',
+    status: WatchStatus.watching,
+    totalEpisodes: 16,
+    watchedEpisodes: 3,
+    minutesPerEpisode: 60,
+    seasonRatings: [9.9],
+  ),
   ...kDefaultDramas,
 ];
 
-const List<String> _statuses = ['Watching', 'Finished', 'Backlog'];
-
-/// Untuk tes "Long list".
-final List<Map<String, dynamic>> kBigDramas = List.generate(
+// Untuk tes "Long list".
+final List<Drama> kBigDramas = List.generate(
   500,
-      (i) => {
-    'title': 'Drama ${i + 1}',
-    'status': _statuses[i % _statuses.length],
-    'genre': 'Romance',
-    'rating': 5.0 + (i % 50) / 10,
-  },
+      (i) => Drama(
+    id: 'big-$i',
+    title: 'Drama ${i + 1}',
+    genre: 'Romance',
+    status: WatchStatus.values[i % WatchStatus.values.length],
+    totalEpisodes: 16,
+    watchedEpisodes: i % 17,
+    minutesPerEpisode: 60,
+    seasonRatings: [5.0 + (i % 50) / 10],
+  ),
 );
 
 // Harness
@@ -63,19 +71,19 @@ enum _Data {
 
   final String label;
 
-  List<Map<String, dynamic>> get dramas => switch (this) {
+  List<Drama> get dramas => switch (this) {
     _Data.normal => kDefaultDramas,
     _Data.longTitle => kLongTitleDramas,
-    _Data.empty => const <Map<String, dynamic>>[],
+    _Data.empty => const <Drama>[],
     _Data.big => kBigDramas,
   };
 }
 
-/// App yang diuji: sama dengan MyApp di main.dart, tapi data bisa diganti.
+// App yang diuji: sama dengan MyApp di main.dart, tapi data bisa diganti.
 class _DramaApp extends StatelessWidget {
   const _DramaApp({super.key, required this.dramas, required this.themeMode});
 
-  final List<Map<String, dynamic>> dramas;
+  final List<Drama> dramas;
   final ThemeMode themeMode;
 
   @override

@@ -4,56 +4,16 @@ import 'package:composition_md/widgets/vault_header.dart';
 import 'package:composition_md/widgets/drama_search_bar.dart';
 import 'package:composition_md/widgets/status_filter.dart';
 import 'package:composition_md/widgets/drama_list.dart';
+import 'package:composition_md/data/drama_data.dart';
+import 'package:composition_md/models/drama.dart';
 
 /// Di lebar >= 600 dp, koleksi drama berubah dari list menjadi grid.
 const double kTabletBreakpoint = 600;
 
-/// Data bawaan app. Harness (lib/lab_harness.dart) bisa menggantinya
-/// lewat parameter [HomeScreen.dramas] untuk keperluan tes.
-const List<Map<String, dynamic>> kDefaultDramas = [
-  {
-    'title': 'Queen of Tears',
-    'status': 'Watching',
-    'genre': 'Romance',
-    'rating': 9.2,
-  },
-  {
-    'title': 'Lovely Runner',
-    'status': 'Backlog',
-    'genre': 'Romance',
-    'rating': 9.5,
-  },
-  {
-    'title': 'Colony',
-    'status': 'Finished',
-    'genre': 'Horror',
-    'rating': 7.5,
-  },
-  {
-    'title': 'Our Sticky Love',
-    'status': 'Watching',
-    'genre': 'Romance Comedy',
-    'rating': 8.5,
-  },
-  {
-    'title': 'Perfect Crown',
-    'status': 'Finished',
-    'genre': 'Romance Comedy',
-    'rating': 8.8,
-  },
-  {
-    'title': 'Alchemy of Souls',
-    'status': 'Backlog',
-    'genre': 'Fantasy',
-    'rating': 9.7,
-  },
-];
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.dramas});
 
-  /// null = pakai [kDefaultDramas].
-  final List<Map<String, dynamic>>? dramas;
+  final List<Drama>? dramas;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -61,21 +21,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String searchQuery = '';
-  String selectedStatus = 'All';
+  WatchStatus? selectedStatus;
   final TextEditingController searchController = TextEditingController();
 
-  List<Map<String, dynamic>> get dramas => widget.dramas ?? kDefaultDramas;
+  List<Drama> get dramas => widget.dramas ?? kDefaultDramas;
 
-  List<Map<String, dynamic>> get filteredDramas {
+  List<Drama> get filteredDramas {
+    final query = searchQuery.toLowerCase();
     return dramas.where((drama) {
-      final matchesSearch = drama['title']
-          .toString()
-          .toLowerCase()
-          .contains(searchQuery.toLowerCase());
-
+      final matchesSearch = drama.title.toLowerCase().contains(query);
       final matchesStatus =
-          selectedStatus == 'All' || drama['status'] == selectedStatus;
-
+          selectedStatus == null || drama.status == selectedStatus;
       return matchesSearch && matchesStatus;
     }).toList();
   }
@@ -84,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     searchController.clear();
     setState(() {
       searchQuery = '';
-      selectedStatus = 'All';
+      selectedStatus = null;
     });
   }
 
