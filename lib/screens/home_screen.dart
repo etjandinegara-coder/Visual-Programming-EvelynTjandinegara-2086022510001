@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:composition_md/widgets/vault_header.dart';
+import 'package:composition_md/screens/drama_detail_screen.dart';
 import 'package:composition_md/widgets/drama_search_bar.dart';
 import 'package:composition_md/widgets/status_filter.dart';
+import 'package:composition_md/widgets/vault_header.dart';
 import 'package:composition_md/widgets/drama_list.dart';
 import 'package:composition_md/data/drama_data.dart';
 import 'package:composition_md/models/drama.dart';
+
 
 /// Di lebar >= 600 dp, koleksi drama berubah dari list menjadi grid.
 const double kTabletBreakpoint = 600;
@@ -34,6 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedStatus == null || drama.status == selectedStatus;
       return matchesSearch && matchesStatus;
     }).toList();
+  }
+
+  void openDetail(Drama drama) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => DramaDetailScreen(drama: drama),
+      ),
+    );
   }
 
   void resetFilters() {
@@ -111,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 DramaList(
+                  onDramaTap: openDetail,
                   dramas: filteredDramas,
                   isTablet: isTabletLayout,
                   onReset: resetFilters,

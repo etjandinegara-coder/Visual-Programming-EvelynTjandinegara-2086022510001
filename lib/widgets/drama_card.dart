@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:composition_md/models/drama.dart';
 
 class DramaCard extends StatelessWidget {
-  const DramaCard({super.key, required this.drama});
+  const DramaCard({super.key, required this.drama, this.onTap});
 
   final Drama drama;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: onTap,
         title: Text(drama.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

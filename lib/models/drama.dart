@@ -35,6 +35,9 @@ class Drama {
 
   int get watchedMinutes => watchedEpisodes * minutesPerEpisode;
 
+  double get progress =>
+      totalEpisodes == 0 ? 0 : watchedEpisodes / totalEpisodes;
+
   double get averageRating {
     if (seasonRatings.isEmpty) return 0;
     final sum = seasonRatings.reduce((a, b) => a + b);

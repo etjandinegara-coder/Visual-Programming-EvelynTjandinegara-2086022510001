@@ -6,13 +6,17 @@ class DramaList extends StatelessWidget {
   final List<Drama> dramas;
   final bool isTablet;
   final VoidCallback onReset;
+  final ValueChanged<Drama> onDramaTap;
 
   const DramaList({
     super.key,
-    required this.dramas, required this.isTablet, required this.onReset,
+    required this.dramas, required this.isTablet, required this.onReset, required this.onDramaTap,
   });
 
-  Widget _buildCard(int index) => DramaCard(drama: dramas[index]);
+  Widget _buildCard(int index) {
+    final drama = dramas[index];
+    return DramaCard(drama: drama, onTap: () => onDramaTap(drama));
+  }
 
   @override
   Widget build(BuildContext context) {
