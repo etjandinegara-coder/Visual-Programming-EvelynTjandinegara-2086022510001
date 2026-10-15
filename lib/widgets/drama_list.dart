@@ -27,7 +27,7 @@ class DramaList extends StatelessWidget {
       );
     }
 
-    const padding = EdgeInsets.fromLTRB(16, 0, 16, 24);
+    const padding = EdgeInsets.fromLTRB(16, 0, 16, 88);
 
     if (isTablet) {
       return SliverPadding(

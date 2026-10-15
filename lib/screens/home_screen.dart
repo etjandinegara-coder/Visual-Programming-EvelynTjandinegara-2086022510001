@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:composition_md/screens/drama_detail_screen.dart';
+import 'package:composition_md/screens/drama_form_screen.dart';
 import 'package:composition_md/widgets/drama_search_bar.dart';
 import 'package:composition_md/widgets/status_filter.dart';
 import 'package:composition_md/widgets/vault_header.dart';
@@ -26,7 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   WatchStatus? selectedStatus;
   final TextEditingController searchController = TextEditingController();
 
-  List<Drama> get dramas => widget.dramas ?? kDefaultDramas;
+  late List<Drama> _dramas;
+
+  @override
+  void initState() {
+    super.initState();
+    _dramas = List.of(widget.dramas ?? kDefaultDramas);
+  }
+
+  List<Drama> get dramas => _dramas;
 
   List<Drama> get filteredDramas {
     final query = searchQuery.toLowerCase();
@@ -41,9 +50,27 @@ class _HomeScreenState extends State<HomeScreen> {
   void openDetail(Drama drama) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => DramaDetailScreen(drama: drama),
+        builder: (_) => DramaDetailScreen(
+          drama: drama,
+          onUpdated: updateDrama,
+        ),
       ),
     );
+  }
+
+  Future<void> addDrama() async {
+    final created = await Navigator.of(context).push<Drama>(
+      MaterialPageRoute(builder: (_) => const DramaFormScreen()),
+    );
+    if (!mounted || created == null) return;
+    setState(() => _dramas.add(created));
+  }
+
+  void updateDrama(Drama updated) {
+    setState(() {
+      final index = _dramas.indexWhere((d) => d.id == updated.id);
+      if (index != -1) _dramas[index] = updated;
+    });
   }
 
   void resetFilters() {
@@ -69,6 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: addDrama,
+        tooltip: 'Add drama',
+        child: const Icon(Icons.add),
       ),
       // SafeArea (tanpa top) supaya konten tidak tertutup notch saat landscape
       // dan tidak ada yang bisa diketuk di bawah gesture bar.
