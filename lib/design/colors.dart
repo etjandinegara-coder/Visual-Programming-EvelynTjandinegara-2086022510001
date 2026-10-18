@@ -9,5 +9,5 @@ const kDramaBrown900 = Color(0xFF442B2D);
 
 const kDramaErrorRed = Color(0xFFC5032B);
 
-const kdramaSurfaceWhite = Color(0xFFFFFBFA);
+const kDramaSurfaceWhite = Color(0xFFFFFBFA);
 const kDramaBackgroundWhite = Colors.white;

@@ -23,9 +23,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String searchQuery = '';
-  WatchStatus? selectedStatus;
-  final TextEditingController searchController = TextEditingController();
+  String _searchQuery = '';
+  WatchStatus? _selectedStatus;
+  final TextEditingController _searchController = TextEditingController();
 
   late List<Drama> _dramas;
 
@@ -35,30 +35,28 @@ class _HomeScreenState extends State<HomeScreen> {
     _dramas = List.of(widget.dramas ?? kDefaultDramas);
   }
 
-  List<Drama> get dramas => _dramas;
-
-  List<Drama> get filteredDramas {
-    final query = searchQuery.toLowerCase();
-    return dramas.where((drama) {
+  List<Drama> get _filteredDramas {
+    final query = _searchQuery.toLowerCase();
+    return _dramas.where((drama) {
       final matchesSearch = drama.title.toLowerCase().contains(query);
       final matchesStatus =
-          selectedStatus == null || drama.status == selectedStatus;
+          _selectedStatus == null || drama.status == _selectedStatus;
       return matchesSearch && matchesStatus;
     }).toList();
   }
 
-  void openDetail(Drama drama) {
+  void _openDetail(Drama drama) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => DramaDetailScreen(
           drama: drama,
-          onUpdated: updateDrama,
+          onUpdated: _updateDrama,
         ),
       ),
     );
   }
 
-  Future<void> addDrama() async {
+  Future<void> _addDrama() async {
     final created = await Navigator.of(context).push<Drama>(
       MaterialPageRoute(builder: (_) => const DramaFormScreen()),
     );
@@ -66,24 +64,24 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => _dramas.add(created));
   }
 
-  void updateDrama(Drama updated) {
+  void _updateDrama(Drama updated) {
     setState(() {
       final index = _dramas.indexWhere((d) => d.id == updated.id);
       if (index != -1) _dramas[index] = updated;
     });
   }
 
-  void resetFilters() {
-    searchController.clear();
+  void _resetFilters() {
+    _searchController.clear();
     setState(() {
-      searchQuery = '';
-      selectedStatus = null;
+      _searchQuery = '';
+      _selectedStatus = null;
     });
   }
 
   @override
   void dispose() {
-    searchController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -98,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: addDrama,
+        onPressed: _addDrama,
         tooltip: 'Add drama',
         child: const Icon(Icons.add),
       ),
@@ -122,9 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
                   sliver: SliverToBoxAdapter(
                     child: DramaSearchBar(
-                      controller: searchController,
+                      controller: _searchController,
                       onChanged: (value) =>
-                          setState(() => searchQuery = value),
+                          setState(() => _searchQuery = value),
                     ),
                   ),
                 ),
@@ -132,9 +130,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   sliver: SliverToBoxAdapter(
                     child: StatusFilter(
-                      selectedStatus: selectedStatus,
+                      selectedStatus: _selectedStatus,
                       onStatusSelected: (status) =>
-                          setState(() => selectedStatus = status),
+                          setState(() => _selectedStatus = status),
                     ),
                   ),
                 ),
@@ -150,10 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 DramaList(
-                  onDramaTap: openDetail,
-                  dramas: filteredDramas,
+                  onDramaTap: _openDetail,
+                  dramas: _filteredDramas,
                   isTablet: isTabletLayout,
-                  onReset: resetFilters,
+                  onReset: _resetFilters,
                 ),
               ],
             );
