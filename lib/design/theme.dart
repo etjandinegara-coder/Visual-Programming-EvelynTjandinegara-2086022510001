@@ -5,10 +5,11 @@ TextTheme _buildDramaTextTheme(TextTheme base, {required bool isLight}) {
   return base
       .copyWith(
     headlineSmall: base.headlineSmall!.copyWith(
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
     ),
     titleLarge: base.titleLarge!.copyWith(
       fontSize: 18.0,
+      fontWeight: FontWeight.w700,
     ),
     bodySmall: base.bodySmall!.copyWith(
       fontWeight: FontWeight.w400,

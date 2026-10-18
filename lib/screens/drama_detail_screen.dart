@@ -163,7 +163,10 @@ class _SeasonRatings extends StatelessWidget {
                 Expanded(
                   child: Text('Season ${i + 1}', style: text.bodyLarge),
                 ),
-                const Icon(Icons.star_rounded),
+                Icon(
+                  Icons.star_rounded,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(width: 4),
                 Text(ratings[i].toStringAsFixed(1), style: text.bodyLarge),
               ],

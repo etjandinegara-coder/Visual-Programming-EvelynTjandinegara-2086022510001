@@ -23,7 +23,10 @@ class DramaCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.star_rounded, size: 18, color: Colors.amber),
+            Icon(
+              Icons.star_rounded,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             const SizedBox(width: 4),
             Text(drama.averageRating.toStringAsFixed(1)),
           ],
