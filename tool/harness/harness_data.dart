@@ -19,6 +19,7 @@ final List<Drama> kLongTitleDramas = [
     totalEpisodes: 16,
     watchedEpisodes: 3,
     minutesPerEpisode: 60,
+    tropes: ['Slow Burn Enemies-to-Lovers With A Very Long Trope Name For Testing'],
     seasonRatings: [9.9],
   ),
   ...kDefaultDramas,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:composition_md/screens/drama_detail_screen.dart';
+import 'package:composition_md/widgets/watch_time_summary.dart';
 import 'package:composition_md/screens/drama_form_screen.dart';
 import 'package:composition_md/widgets/drama_search_bar.dart';
 import 'package:composition_md/widgets/status_filter.dart';
 import 'package:composition_md/widgets/vault_header.dart';
+import 'package:composition_md/widgets/trope_filter.dart';
 import 'package:composition_md/widgets/drama_list.dart';
 import 'package:composition_md/data/drama_data.dart';
 import 'package:composition_md/models/drama.dart';
@@ -25,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _searchQuery = '';
   WatchStatus? _selectedStatus;
+  String? _selectedTrope;
   final TextEditingController _searchController = TextEditingController();
 
   late List<Drama> _dramas;
@@ -35,15 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _dramas = List.of(widget.dramas ?? kDefaultDramas);
   }
 
-  List<Drama> get _filteredDramas {
-    final query = _searchQuery.toLowerCase();
-    return _dramas.where((drama) {
-      final matchesSearch = drama.title.toLowerCase().contains(query);
-      final matchesStatus =
-          _selectedStatus == null || drama.status == _selectedStatus;
-      return matchesSearch && matchesStatus;
-    }).toList();
-  }
+  List<Drama> get _filteredDramas => _dramas.filtered(
+    query: _searchQuery,
+    status: _selectedStatus,
+    trope: _selectedTrope,
+  );
 
   void _openDetail(Drama drama) {
     Navigator.of(context).push(
@@ -68,7 +67,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       final index = _dramas.indexWhere((d) => d.id == updated.id);
       if (index != -1) _dramas[index] = updated;
+      // Trope yang dipilih bisa hilang setelah drama diedit.
+      final trope = _selectedTrope;
+      if (trope != null && !_dramas.containsTrope(trope)) {
+        _selectedTrope = null;
+      }
     });
+  }
+
+  Widget _box(double top, Widget child, {double bottom = 0}) {
+    return SliverPadding(
+      padding: EdgeInsets.fromLTRB(16, top, 16, bottom),
+      sliver: SliverToBoxAdapter(child: child),
+    );
   }
 
   void _resetFilters() {
@@ -76,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _searchQuery = '';
       _selectedStatus = null;
+      _selectedTrope = null;
     });
   }
 
@@ -106,52 +118,60 @@ class _HomeScreenState extends State<HomeScreen> {
         top: false,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final isTabletLayout = constraints.maxWidth >= kTabletBreakpoint;
+            final isTablet = constraints.maxWidth >= kTabletBreakpoint;
 
             return CustomScrollView(
               keyboardDismissBehavior:
               ScrollViewKeyboardDismissBehavior.onDrag,
               slivers: [
-                const SliverPadding(
-                  padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  sliver: SliverToBoxAdapter(child: VaultHeader()),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: DramaSearchBar(
-                      controller: _searchController,
-                      onChanged: (value) =>
-                          setState(() => _searchQuery = value),
-                    ),
+                _box(16, const VaultHeader()),
+                _box(
+                  16,
+                  WatchTimeSummary(
+                    totalMinutes: _dramas.totalWatchedMinutes,
+                    dramaCount: _dramas.length,
                   ),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: StatusFilter(
-                      selectedStatus: _selectedStatus,
-                      onStatusSelected: (status) =>
-                          setState(() => _selectedStatus = status),
-                    ),
+                _box(
+                  16,
+                  DramaSearchBar(
+                    controller: _searchController,
+                    onChanged: (value) =>
+                        setState(() => _searchQuery = value),
                   ),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 20, 16, 10),
-                  sliver: SliverToBoxAdapter(
-                  child: Text(
-                  'My Watchlist',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleLarge,
+                _box(
+                  16,
+                  StatusFilter(
+                    selectedStatus: _selectedStatus,
+                    onStatusSelected: (status) =>
+                        setState(() => _selectedStatus = status),
                   ),
+                ),
+                _box(
+                  8,
+                  TropeFilter(
+                    tropes: _dramas.allTropes,
+                    selectedTrope: _selectedTrope,
+                    onTropeSelected: (trope) =>
+                        setState(() => _selectedTrope = trope),
                   ),
+                ),
+                _box(
+                  24,
+                  Text(
+                    'My Watchlist',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  bottom: 8,
                 ),
                 DramaList(
-                  onDramaTap: _openDetail,
                   dramas: _filteredDramas,
-                  isTablet: isTabletLayout,
+                  isTablet: isTablet,
                   onReset: _resetFilters,
+                  onDramaTap: _openDetail,
                 ),
               ],
             );
