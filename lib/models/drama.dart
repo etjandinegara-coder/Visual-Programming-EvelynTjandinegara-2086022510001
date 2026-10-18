@@ -38,6 +38,11 @@ class Drama {
   double get progress =>
       totalEpisodes == 0 ? 0 : watchedEpisodes / totalEpisodes;
 
+  bool hasTrope(String trope) {
+    final key = trope.toLowerCase();
+    return tropes.any((t) => t.toLowerCase() == key);
+  }
+
   double get averageRating {
     if (seasonRatings.isEmpty) return 0;
     final sum = seasonRatings.reduce((a, b) => a + b);
@@ -65,5 +70,38 @@ class Drama {
       tropes: tropes ?? this.tropes,
       seasonRatings: seasonRatings ?? this.seasonRatings,
     );
+  }
+}
+
+extension DramaCollection on List<Drama> {
+  int get totalWatchedMinutes =>
+      fold(0, (sum, drama) => sum + drama.watchedMinutes);
+
+  /// Daftar trope unik dari seluruh koleksi, tanpa duplikat huruf besar-kecil.
+  List<String> get allTropes {
+    final byKey = <String, String>{};
+    for (final drama in this) {
+      for (final trope in drama.tropes) {
+        byKey.putIfAbsent(trope.toLowerCase(), () => trope);
+      }
+    }
+    return byKey.values.toList()
+      ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+  }
+
+  bool containsTrope(String trope) => any((drama) => drama.hasTrope(trope));
+
+  List<Drama> filtered({
+    String query = '',
+    WatchStatus? status,
+    String? trope,
+  }) {
+    final text = query.toLowerCase();
+    return where((drama) {
+      final matchesSearch = drama.title.toLowerCase().contains(text);
+      final matchesStatus = status == null || drama.status == status;
+      final matchesTrope = trope == null || drama.hasTrope(trope);
+      return matchesSearch && matchesStatus && matchesTrope;
+    }).toList();
   }
 }
