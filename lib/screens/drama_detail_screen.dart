@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:composition_md/models/drama.dart';
 import 'package:composition_md/screens/drama_form_screen.dart';
+import 'package:composition_md/core/duration_format.dart';
 
 class DramaDetailScreen extends StatefulWidget {
   const DramaDetailScreen({super.key, required this.drama, required this.onUpdated});
@@ -61,7 +62,7 @@ class _DramaDetailScreenState extends State<DramaDetailScreen> {
                 _Section(
                   title: 'Watch time',
                   child: Text(
-                    _formatMinutes(drama.watchedMinutes),
+                    formatMinutes(drama.watchedMinutes),
                     style: text.bodyLarge,
                   ),
                 ),
@@ -175,12 +176,4 @@ class _SeasonRatings extends StatelessWidget {
       ],
     );
   }
-}
-
-String _formatMinutes(int minutes) {
-  final hours = minutes ~/ 60;
-  final rest = minutes % 60;
-  if (hours == 0) return '$rest min';
-  if (rest == 0) return '$hours h';
-  return '$hours h $rest min';
 }
