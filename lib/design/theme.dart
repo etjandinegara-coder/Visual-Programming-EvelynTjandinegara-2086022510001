@@ -33,6 +33,8 @@ ThemeData _buildDramaTheme(Brightness brightness) {
   final base = ThemeData(brightness: brightness, useMaterial3: true);
 
   return base.copyWith(
+    visualDensity: VisualDensity.standard,
+    materialTapTargetSize: MaterialTapTargetSize.padded,
     appBarTheme: AppBarTheme(
       backgroundColor: isLight ? kDramaPink100 : null,
       foregroundColor: isLight ? kDramaBrown900 : null,
