@@ -96,6 +96,8 @@ flutter build apk --release
 
 Hasilnya ada di build/app/outputs/flutter-apk/app-release.apk.
 
+Atau: https://github.com/etjandinegara-coder/Visual-Programming-EvelynTjandinegara-2086022510001/releases/tag/v1.0.0
+
 **Struktur proyek**
 
 Proyek memakai pola layer-first: kode dikelompokkan berdasarkan jenis isi file.
