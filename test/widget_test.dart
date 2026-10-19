@@ -22,7 +22,10 @@ void main() {
         expect(find.text('No drama found'), findsOneWidget);
         expect(find.text('Reset filters'), findsOneWidget);
 
+        await tester.ensureVisible(find.text('Reset filters'));
+        await tester.pumpAndSettle();
         await tester.tap(find.text('Reset filters'));
+        await tester.pumpAndSettle();
         await tester.pump();
 
         expect(find.text('Queen of Tears'), findsOneWidget);
