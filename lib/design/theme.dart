@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'package:composition_md/design/colors.dart';
 
 TextTheme _buildDramaTextTheme(TextTheme base, {required bool isLight}) {
   return base
