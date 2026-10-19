@@ -38,23 +38,23 @@ Aplikasi punya tiga layar. Semua perpindahan memakai push, sehingga tombol back 
 
 **Home**
 
-![Home](docs/screenshots/home.png)
+[Home](docs/screenshots/home.png)
 
 Tampilan kosong, mode gelap, dan tablet:
 
-![Home kosong](docs/screenshots/home-empty.png)
-![Home mode gelap](docs/screenshots/home-dark.png)
-![Home tablet](docs/screenshots/home-tablet.png)
+[Home kosong](docs/screenshots/home-empty.png)
+[Home mode gelap](docs/screenshots/home-dark.png)
+[Home tablet](docs/screenshots/home-tablet.png)
 
 **Detail**
 
-![Detail](docs/screenshots/detail.png)
+[Detail](docs/screenshots/detail.png)
 
 **Form**
 
-![Form tambah](docs/screenshots/form-add.png)
-![Form dengan pesan validasi](docs/screenshots/form-error.png)
-![Form ubah](docs/screenshots/form-edit.png)
+[Form tambah](docs/screenshots/form-add.png)
+[Form dengan pesan validasi](docs/screenshots/form-error.png)
+[Form ubah](docs/screenshots/form-edit.png)
 
 **Cara menjalankan**
 
